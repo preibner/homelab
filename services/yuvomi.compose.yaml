@@ -1,0 +1,47 @@
+services:
+  yuvomi:
+    image: ghcr.io/ulsklyc/yuvomi:latest
+    container_name: yuvomi
+    restart: unless-stopped
+
+    # Resource limits
+    mem_limit: 512m
+    cpus: 1.0
+
+    expose:
+      - "3000"
+
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      TZ: ${TIMEZONE}
+
+      DB_PATH: /data/yuvomi.db
+      BACKUP_DIR: /backups
+
+      SESSION_SECRET: ${YUVOMI_SESSION_SECRET}
+      DB_ENCRYPTION_KEY: ${YUVOMI_DB_ENCRYPTION_KEY}
+
+      BASE_URL: ${BASE_URL}
+      SESSION_SECURE: "true"
+      TRUST_PROXY: "1"
+
+      DOCUMENT_STORAGE_LOCAL_ENABLED: "false"
+
+    volumes:
+      - yuvomi_data:/data
+      - yuvomi_backups:/backups
+
+    networks:
+      - proxy
+
+volumes:
+  yuvomi_data:
+    name: family_wall_yuvomi_data
+
+  yuvomi_backups:
+    name: family_wall_yuvomi_backups
+
+networks:
+  proxy:
+    external: true
