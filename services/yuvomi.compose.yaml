@@ -1,3 +1,4 @@
+
 services:
   yuvomi:
     image: ghcr.io/ulsklyc/yuvomi:latest
@@ -27,6 +28,7 @@ services:
       TRUST_PROXY: "1"
 
       DOCUMENT_STORAGE_LOCAL_ENABLED: "false"
+      MODULES_ALLOW_WEB_INSTALL: "true"
 
     volumes:
       - yuvomi_data:/data
